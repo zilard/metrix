@@ -20,6 +20,10 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 
     for nodeName, nodeData := range nodeMetricsMap {
 
+        if len(nodeData.NodeMeasurementArray) == 0 {
+            continue
+        }
+
         fmt.Printf("NODE NAME %v\n", nodeName)
 
 

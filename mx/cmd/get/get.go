@@ -1,14 +1,17 @@
 
-package cmd
+package get
 
 import (
     "fmt"
-
+//    "reflect"
     "github.com/spf13/cobra"
 )
 
+var timeSlice float64
 
 func init() {
+
+    GetCmd.PersistentFlags().Float64VarP(&timeSlice, "ts", "t", 60, "timeslice")
 
     GetCmd.AddCommand(GetNodeAnalyticsCmd)
     GetCmd.AddCommand(GetProcessAnalyticsCmd)

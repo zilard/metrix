@@ -1,9 +1,12 @@
 
-package cmd
+package send
 
 import (
     "fmt"
-//    "reflect"
+
+    s "github.com/zilard/metrix/structs"
+    h "github.com/zilard/metrix/mx/cmd/http"
+    u "github.com/zilard/metrix/mx/cmd/utils"
 
     "github.com/spf13/cobra"
 )
@@ -49,7 +52,35 @@ var SendNodeMetricsCmd = &cobra.Command{
 
         }
 
+        SendNodeMetrics()
+
+
     },
+
+}
+
+
+
+func SendNodeMetrics() {
+
+    c := h.NewClient()
+
+    nodeMetrics := s.NodeMeasurement{
+                       TimeSlice: timeSlice,
+                       Cpu: cpu,
+                       Mem: mem,
+                   }
+
+    path := fmt.Sprintf("/v1/metrics/node/%s/", nodeName)
+    req, _ := c.NewRequest("POST", path, nodeMetrics)
+
+
+    var nodeMeasurement s.NodeMeasurement
+
+    c.Do(req, &nodeMeasurement)
+
+
+    fmt.Printf("NODE MEASUREMENT SENT: %s\n", u.PrettyPrint(nodeMeasurement))
 
 }
 

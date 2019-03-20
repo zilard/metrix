@@ -17,10 +17,8 @@ const PORT = 8080
 func main() {
     router := mux.NewRouter()
 
-    router.HandleFunc("/v1/metrics/node/{nodename}", h.CreateNodeMetrics).Methods("POST")
     router.HandleFunc("/v1/metrics/node/{nodename}/", h.CreateNodeMetrics).Methods("POST")
-    router.HandleFunc("/v1/metrics/node/{nodename}/process/{processname}", h.CreateProcessMetrics).Methods("POST")
-    router.HandleFunc("/v1/metrics/node/{nodename}/process/{processname}/", h.CreateProcessMetrics).Methods("POST")
+    router.HandleFunc("/v1/metrics/nodes/{nodename}/process/{processname}/", h.CreateProcessMetrics).Methods("POST")
 
     router.HandleFunc("/v1/analytics/nodes/average", h.GetAllNodeAverageMetrics).Methods("GET")
 

@@ -1,20 +1,24 @@
 
-package cmd
+package send
 
 import (
     "fmt"
+//    "reflect"
 
     "github.com/spf13/cobra"
 )
 
 
 var nodeName string
+var timeSlice float64
 var cpu float64
 var mem float64
 
 
 
 func init() {
+
+    SendCmd.PersistentFlags().Float64VarP(&timeSlice, "ts", "t", 60, "timeslice")
 
     SendCmd.AddCommand(SendNodeMetricsCmd)
     SendCmd.AddCommand(SendProcessMetricsCmd)

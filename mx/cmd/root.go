@@ -4,12 +4,11 @@ package cmd
 import (
 	"fmt"
 
+        g "github.com/zilard/metrix/mx/cmd/get"
+        s "github.com/zilard/metrix/mx/cmd/send"
+
 	"github.com/spf13/cobra"
 )
-
-
-var timeSlice float64
-var processName string
 
 
 var RootCmd = &cobra.Command{
@@ -26,11 +25,8 @@ var RootCmd = &cobra.Command{
 
 func init() {
 
-    RootCmd.PersistentFlags().Float64VarP(&timeSlice, "ts", "t", 60, "timeslice")
-
-    RootCmd.AddCommand(GetCmd)
-    RootCmd.AddCommand(SendCmd)
-
+    RootCmd.AddCommand(g.GetCmd)
+    RootCmd.AddCommand(s.SendCmd)
 
 }
 

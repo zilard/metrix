@@ -1,12 +1,18 @@
 
-package cmd
+package send
 
 import (
     "fmt"
 
+    s "github.com/zilard/metrix/structs"
+    h "github.com/zilard/metrix/mx/cmd/http"
+    u "github.com/zilard/metrix/mx/cmd/utils"
+
     "github.com/spf13/cobra"
 )
 
+
+var processName string
 
 
 func init() {
@@ -59,8 +65,34 @@ var SendProcessMetricsCmd = &cobra.Command{
 
         }
 
+        SendProcessMetrics()
 
     },
+
+}
+
+
+func SendProcessMetrics() {
+
+    c := h.NewClient()
+
+    processMetrics := s.ProcessMeasurement{
+                          TimeSlice: timeSlice,
+                          CpuUsed: cpu,
+                          MemUsed: mem,
+                      }
+
+
+    path := fmt.Sprintf("/v1/metrics/nodes/%s/process/%s/", nodeName, processName)
+    req, _ := c.NewRequest("POST", path, processMetrics)
+
+
+    var processMeasurement s.ProcessMeasurement
+
+    c.Do(req, &processMeasurement)
+
+
+    fmt.Printf("PROCESS MEASUREMENT SENT: %s\n", u.PrettyPrint(processMeasurement))
 
 }
 
