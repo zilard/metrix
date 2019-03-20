@@ -12,25 +12,18 @@ import (
 
 
 func CreateDummyNodeMetrics(nodeMetricsMap s.NodeMetricsMap) {
-
-
     for i := 1; i <= 2; i++ {
-
         nodeData := s.NodeData{}
-
         for j := 1; j <= 10; j++ {
             nodeData.NodeMeasurementArray = append(nodeData.NodeMeasurementArray,
                          s.NodeMeasurement{
-                             TimeSlice: float64(j*10),
-                             Cpu: float64(j*5),
-                             Mem: float64(j*6),
+                             TimeSlice: float64(j * 10),
+                             Cpu: float64(j * 5),
+                             Mem: float64(j * 6),
                          })
         }
-
-        nodeMetricsMap["n"+strconv.Itoa(i)] = nodeData
-
+        nodeMetricsMap["n" + strconv.Itoa(i)] = nodeData
      }
-
 }
 
 
@@ -39,15 +32,9 @@ func CreateDummyNodeMetrics(nodeMetricsMap s.NodeMetricsMap) {
 
 func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64) s.NodeAverageReport {
 
-
     fmt.Printf("TIMESLICE %v\n", timeSlice)
 
-
-    CreateDummyNodeMetrics(nodeMetricsMap)
-
-
     fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
-
 
     nodeAverageAnalytics := make(s.NodeAverageAnalytics)
 
@@ -65,7 +52,7 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
         timeS := timeSlice
 
         for i := range nodeData.NodeMeasurementArray {
-            nodeMeasurement := nodeData.NodeMeasurementArray[len(nodeData.NodeMeasurementArray)-1-i]
+            nodeMeasurement := nodeData.NodeMeasurementArray[len(nodeData.NodeMeasurementArray) - 1 - i]
             fmt.Printf("__NODE MEASUREMENT %v\n", nodeMeasurement)
 
             if nodeMeasurement.TimeSlice >= timeS {

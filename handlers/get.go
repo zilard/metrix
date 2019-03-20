@@ -7,9 +7,7 @@ import (
     "fmt"
     "strconv"
 
-    s "github.com/zilard/metrix/structs"
     u "github.com/zilard/metrix/handlers/utils"
-
     "github.com/gorilla/mux"
 )
 
@@ -37,29 +35,6 @@ func GetAllNodeMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-func CreateDummyNodeMetrics() {
-
-
-    for i := 1; i <= 2; i++ {
-
-        nd := s.NodeData{}
-
-        for j := 1; j <= 10; j++ {
-            nd.NodeMeasurementArray = append(nd.NodeMeasurementArray,
-                         s.NodeMeasurement{
-                             TimeSlice: float64(j*10),
-                             Cpu: float64(j*5),
-                             Mem: float64(j*6),
-                         })
-        }
-
-        nodeMetricsMap["n"+strconv.Itoa(i)] = nd
-
-     }
-
-}
-
-
 
 func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
 
@@ -73,6 +48,8 @@ func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
         timeSlice, _ = strconv.ParseFloat(paramArray[0], 64)
     }
 
+    //ONLY FOR TESTING
+    //u.CreateDummyNodeMetrics(nodeMetricsMap)
 
     totalNodeAverageReport := u.CreateNodeAverageReport(nodeMetricsMap, timeSlice)
 
@@ -80,6 +57,5 @@ func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(totalNodeAverageReport)
 
 }
-
 
 
