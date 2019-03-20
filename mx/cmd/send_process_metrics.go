@@ -3,7 +3,6 @@ package cmd
 
 import (
     "fmt"
-    "reflect"
 
     "github.com/spf13/cobra"
 )
@@ -59,17 +58,6 @@ var SendProcessMetricsCmd = &cobra.Command{
              return
 
         }
-
-
-        fmt.Printf("SEND PROCESS METRICS: received=> nodeName %v  type: %v\n", nodeName, reflect.TypeOf(nodeName))
-
-        fmt.Printf("SEND PROCESS METRICS: received=> processName %v  type: %v\n", processName, reflect.TypeOf(processName))
-
-        fmt.Printf("SEND PROCESS METRICS: received=> timeSlice %v  type: %v\n", timeSlice, reflect.TypeOf(timeSlice))
-
-        fmt.Printf("SEND PROCESS METRICS: received=> cpu %v  type: %v\n", cpu, reflect.TypeOf(cpu))
-
-        fmt.Printf("SEND PROCESS METRICS: received=> mem %v  type: %v\n", mem, reflect.TypeOf(mem))
 
     },
 

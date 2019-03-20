@@ -3,7 +3,6 @@ package cmd
 
 import (
     "fmt"
-    "reflect"
 
     "github.com/spf13/cobra"
 )
@@ -33,8 +32,6 @@ var SendCmd = &cobra.Command{
         fmt.Printf("Use:" +
                    "\n\t1.) \"mx send nm\" to send Node Metrics" +
                    "\n\t2.) \"mx send pm\" to get Process Metrics\n")
-
-        fmt.Printf("SEND: received=> timeSlice %v  type: %v\n", timeSlice, reflect.TypeOf(timeSlice))
 
     },
 

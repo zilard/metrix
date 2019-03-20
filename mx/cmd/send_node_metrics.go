@@ -3,7 +3,6 @@ package cmd
 
 import (
     "fmt"
-    "reflect"
 
     "github.com/spf13/cobra"
 )
@@ -48,16 +47,6 @@ var SendNodeMetricsCmd = &cobra.Command{
              return
 
         }
-
-
-
-        fmt.Printf("SEND NODE METRICS: received=> nodeName %v  type: %v\n", nodeName, reflect.TypeOf(nodeName))
-
-        fmt.Printf("SEND NODE METRICS: received=> timeSlice %v  type: %v\n", timeSlice, reflect.TypeOf(timeSlice))
-
-        fmt.Printf("SEND NODE METRICS: received=> cpu %v  type: %v\n", cpu, reflect.TypeOf(cpu))
-
-        fmt.Printf("SEND NODE METRICS: received=> mem %v  type: %v\n", mem, reflect.TypeOf(mem))
 
     },
 

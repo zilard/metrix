@@ -73,7 +73,7 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
     } else {
 
         nodeData := s.NodeData{}
-        processMetricsMap := s.ProcessMetricsMap{}
+        processMetricsMap := make(s.ProcessMetricsMap)
 
         processMeasurementArray := []s.ProcessMeasurement{}
         processMeasurementArray = append(processMeasurementArray, processMeasurement)
@@ -128,6 +128,8 @@ func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
 
         nodeData := s.NodeData{}
         nodeData.NodeMeasurementArray = append(nodeData.NodeMeasurementArray, nodeMeasurement)
+        processMetricsMap := make(s.ProcessMetricsMap)
+        nodeData.ProcessMeasurementMap = processMetricsMap
         nodeMetricsMap[nodeName] = nodeData
 
     }
