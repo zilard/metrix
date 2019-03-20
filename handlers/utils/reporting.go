@@ -3,32 +3,9 @@ package utils
 
 import (
     "fmt"
-    "strconv"
 
     s "github.com/zilard/metrix/structs"
-
-    //"reflect"
 )
-
-
-
-
-
-func CreateDummyNodeMetrics(nodeMetricsMap s.NodeMetricsMap) {
-    for i := 1; i <= 2; i++ {
-        nodeData := s.NodeData{}
-        for j := 1; j <= 10; j++ {
-            nodeData.NodeMeasurementArray = append(nodeData.NodeMeasurementArray,
-                         s.NodeMeasurement{
-                             TimeSlice: float64(j * 10),
-                             Cpu: float64(j * 5),
-                             Mem: float64(j * 6),
-                         })
-        }
-        nodeMetricsMap["n" + strconv.Itoa(i)] = nodeData
-     }
-}
-
 
 
 
@@ -116,14 +93,11 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 
 
 
-
 func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName string, timeSlice float64) s.ProcessAverageReport {
 
     fmt.Printf("TIMESLICE %v\n", timeSlice)
 
     fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
-
-
 
 
     allProcessMetricsArrays := [][]s.ProcessMeasurement{}
@@ -157,7 +131,6 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
             }
 
 
-
             if minAvailableTimeSlice == 0 {
                 minAvailableTimeSlice = availableTimeSlice
             } else {
@@ -167,17 +140,8 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
             }
 
 
-
-
         }
     }
-
-
-    fmt.Printf("process: %v\n", processName)
-    fmt.Printf("minAvailableTimeSlice: %v\n", minAvailableTimeSlice)
-    fmt.Printf("allProcessMetricsArrays: %v\n", allProcessMetricsArrays)
-    fmt.Printf("nodes that reported this process: %v\n", len(allProcessMetricsArrays))
-
 
 
     processAverageReport := s.ProcessAverageReport{
@@ -186,7 +150,6 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
                                 MemUsed: 0,
                                 NumInstances: float64(len(allProcessMetricsArrays)),
                             }
-
 
 
     for _, processMeasurementArray := range allProcessMetricsArrays {
@@ -221,6 +184,7 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
     return processAverageReport
 
 }
+
 
 
 

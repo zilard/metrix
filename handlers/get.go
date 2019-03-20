@@ -6,38 +6,11 @@ import (
     "net/http"
     "fmt"
     "strconv"
-    "math/rand"
-    "time"
 
-
-    s "github.com/zilard/metrix/structs"
     u "github.com/zilard/metrix/handlers/utils"
 
     "github.com/gorilla/mux"
 )
-
-
-
-func GetNodeMetrics(w http.ResponseWriter, r *http.Request) {
-
-    params := mux.Vars(r)
-    nodeName := params["nodename"]
-
-    fmt.Printf("Metrics for node %v: %v\n", nodeName, nodeMetricsMap[nodeName])
-
-    json.NewEncoder(w).Encode(nodeMetricsMap[nodeName])
-
-}
-
-
-func GetAllNodeMetrics(w http.ResponseWriter, r *http.Request) {
-
-    fmt.Printf("Metrics for all nodes: %v\n", nodeMetricsMap)
-
-    json.NewEncoder(w).Encode(nodeMetricsMap)
-
-}
-
 
 
 
@@ -53,44 +26,12 @@ func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
         timeSlice, _ = strconv.ParseFloat(paramArray[0], 64)
     }
 
-    //ONLY FOR TESTING
-    //u.CreateDummyNodeMetrics(nodeMetricsMap)
-
     totalNodeAverageReport := u.CreateNodeAverageReport(nodeMetricsMap, timeSlice)
 
     fmt.Printf("TOTAL NODE AVERAGE ANALYTICS %v\n", totalNodeAverageReport)
     json.NewEncoder(w).Encode(totalNodeAverageReport)
 
 }
-
-
-
-
-func CreateDummyProcessMetrics() {
-
-    for i := 1; i <= 2; i++ {
-        nodeData := s.NodeData{}
-
-        processMetricsMap := make(s.ProcessMetricsMap)
-
-        for j := 1; j <= 10; j++ {
-            processMeasurementArray := []s.ProcessMeasurement{}
-            for k := 1; k <= 2; k++ {
-                processMeasurementArray = append(processMeasurementArray,
-                             s.ProcessMeasurement{
-                                 TimeSlice: float64(k * 10),
-                                 CpuUsed: float64(k * 5),
-                                 MemUsed: float64(k * 6),
-                              })
-            }
-            processMetricsMap["proc" + strconv.Itoa(j)] = processMeasurementArray
-        }
-        nodeData.ProcessMeasurementMap = processMetricsMap
-        nodeMetricsMap["node" + strconv.Itoa(i)] = nodeData
-     }
-
-}
-
 
 
 
@@ -112,48 +53,17 @@ func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
         timeSlice, _ = strconv.ParseFloat(paramArray[0], 64)
     }
 
-
     fmt.Printf("GOT => TIMESLICE: %v\n", timeSlice)
-
-
-    //ONLY FOR TESTING
-    CreateDummyProcessMetrics()
-
-    //fmt.Printf("NODE METRICS MAP %v\n\n", nodeMetricsMap)
-
 
     totalProcessAverageReport := u.CreateProcessAverageReport(nodeMetricsMap, processName, timeSlice)
 
     fmt.Printf("PROCESS AVERAGE ANALYTICS ALL NODES %v\n", totalProcessAverageReport)
     json.NewEncoder(w).Encode(totalProcessAverageReport)
 
-
 }
 
 
 
-
-
-func CreateDummyProcessMetricsHistory() {
-
-    rand.Seed(time.Now().UnixNano())
-
-    for i := 1; i <= 20; i++ {
-
-        processMetricsData := s.ProcessMetricsByName{
-                 ProcessName: "proc" + strconv.Itoa(i),
-                 MetricsData: s.ProcessMeasurement{
-                                  TimeSlice: float64(rand.Intn(120)),
-                                  CpuUsed: float64(rand.Intn(100)),
-                                  MemUsed: float64(rand.Intn(100)),
-                              },
-        }
-
-        processMetricsArray = append(processMetricsArray, processMetricsData)
-
-    }
-
-}
 
 
 func GetMostRecentProcesses(w http.ResponseWriter, r *http.Request) {
@@ -168,20 +78,12 @@ func GetMostRecentProcesses(w http.ResponseWriter, r *http.Request) {
         timeSlice, _ = strconv.ParseFloat(paramArray[0], 64)
     }
 
-
     fmt.Printf("GOT => TIMESLICE: %v\n", timeSlice)
-
-    //ONLY FOR TESTING
-    CreateDummyProcessMetricsHistory()
-
-    fmt.Printf("PROCESS METRICS HISTORY %v\n\n", processMetricsArray)
-
 
     mostRecentProcessHistoryReport := u.CreateProcessHistoryReport(processMetricsArray, timeSlice)
 
     fmt.Printf("MOST RECENT PROCESS HISTORY REPORT %v\n", mostRecentProcessHistoryReport)
     json.NewEncoder(w).Encode(mostRecentProcessHistoryReport)
-
 
 }
 

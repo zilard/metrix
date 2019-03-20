@@ -24,9 +24,6 @@ func main() {
     router.HandleFunc("/v1/analytics/processes/{processname}", h.GetProcessAverageMetricsAllNodes).Methods("GET")
     router.HandleFunc("/v1/analytics/processes/", h.GetMostRecentProcesses).Methods("GET")
 
-    router.HandleFunc("/v1/analytics/nodes/{nodename}", h.GetNodeMetrics).Methods("GET")
-    router.HandleFunc("/v1/analytics/nodes", h.GetAllNodeMetrics).Methods("GET")
-
     fmt.Printf("SERVER LISTENING ON :%d\n", PORT)
     log.Fatal(http.ListenAndServe(":" + strconv.Itoa(PORT), router))
 }
