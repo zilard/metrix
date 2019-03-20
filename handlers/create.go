@@ -14,6 +14,9 @@ import (
 
 
 var nodeMetricsMap = make(s.NodeMetricsMap)
+var processMetricsArray = []s.ProcessMetricsByName{}
+
+
 
 func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 
@@ -31,6 +34,13 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
     }
 
     fmt.Printf("GOT => processMeasurement %v for NODE %v and PROCESS %v\n", processMeasurement, nodeName, processName)
+
+
+    processMetricsData := s.ProcessMetricsByName{}
+    processMetricsData.ProcessName = processName
+    processMetricsData.MetricsData = processMeasurement
+
+    processMetricsArray = append(processMetricsArray, processMetricsData)
 
 
     if _, ok := nodeMetricsMap[nodeName]; ok {

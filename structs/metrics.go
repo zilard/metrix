@@ -14,20 +14,27 @@ type NodeData struct {
 
 
 type NodeMeasurement struct {
-        TimeSlice float64     `json:"timeslice,omitempty"`
-        Cpu       float64     `json:"cpu,omitempty"`
-        Mem       float64     `json:"mem,omitempty"`
+    TimeSlice float64     `json:"timeslice,omitempty"`
+    Cpu       float64     `json:"cpu,omitempty"`
+    Mem       float64     `json:"mem,omitempty"`
 }
 
 
 type ProcessMeasurement struct {
-        TimeSlice float64     `json:"timeslice,omitempty"`
-        CpuUsed   float64     `json:"cpu_used,omitempty"`
-        MemUsed   float64     `json:"mem_used,omitempty"`
+    TimeSlice float64     `json:"timeslice,omitempty"`
+    CpuUsed   float64     `json:"cpu_used,omitempty"`
+    MemUsed   float64     `json:"mem_used,omitempty"`
 }
 
 
 var nodeMeasurementArray []NodeMeasurement
 var processMeasurementArray []ProcessMeasurement
+
+
+
+type ProcessMetricsByName struct {
+    ProcessName string
+    MetricsData ProcessMeasurement
+}
 
 

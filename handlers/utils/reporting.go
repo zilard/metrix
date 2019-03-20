@@ -6,7 +6,11 @@ import (
     "strconv"
 
     s "github.com/zilard/metrix/structs"
+
+    //"reflect"
 )
+
+
 
 
 
@@ -107,6 +111,8 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
     return totalNodeAverageReport
 
 }
+
+
 
 
 
@@ -213,6 +219,49 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
 
 
     return processAverageReport
+
+}
+
+
+
+
+func CreateProcessHistoryReport(processMetricsArray []s.ProcessMetricsByName, timeSlice float64) s.ProcessHistoryReport {
+
+    timeS := timeSlice
+
+    processHistoryReport := s.ProcessHistoryReport{
+                                   TimeSlice: 0,
+                                   Processes: []s.ProcessInfo{},
+                            }
+
+    processes := []s.ProcessInfo{}
+
+
+    for i := range processMetricsArray {
+
+        processMetrics := processMetricsArray[len(processMetricsArray) - 1 - i]
+
+        processes = append(processes, s.ProcessInfo{
+                                          Name: processMetrics.ProcessName,
+                                          Url: "/v1/analytics/processes/" + processMetrics.ProcessName + "/",
+                                      })
+
+        if processMetrics.MetricsData.TimeSlice >= timeS {
+            processHistoryReport.TimeSlice += timeS
+            break
+        } else {
+            timeS -= processMetrics.MetricsData.TimeSlice
+            processHistoryReport.TimeSlice += processMetrics.MetricsData.TimeSlice
+        }
+
+    }
+
+    processHistoryReport.Processes = processes
+
+    fmt.Printf("PROCESS HISTORY REPORT: %v\n", processHistoryReport)
+
+    return processHistoryReport
+
 
 }
 
