@@ -5,21 +5,26 @@ import (
     "encoding/json"
     "net/http"
     "net/url"
+    "strconv"
+    "net"
     "fmt"
     "io"
     "bytes"
 )
 
 
-const BaseURL string = "http://localhost:8080"
 
+func NewClient(ip net.IP, port int) *Client {
 
+    BaseURL := fmt.Sprintf("http://" + ip.String() + ":" + strconv.Itoa(port))
 
-func NewClient() *Client {
     c := &Client{}
     c.BaseURL, _ = url.Parse(BaseURL)
     c.HttpClient = http.DefaultClient
     c.UserAgent = fmt.Sprintf("metrix-client")
+
+    fmt.Printf("Base URL: %v\n\n", BaseURL)
+
     return c
 }
 

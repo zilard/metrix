@@ -13,12 +13,18 @@ import (
 )
 
 
-
+// nodeMetricsMap is where all data is stored
 var nodeMetricsMap = make(s.NodeMetricsMap)
+
+// processMetricsArray required to collect the process metrics history
 var processMetricsArray = []s.ProcessMetricsByName{}
 
 
 
+
+// CreateProcessMetrics - handler for path /v1/metrics/nodes/{nodename}/process/{processname}/
+// Populates the NodeMetricsMap struct and it's internals with the received data, process metrics like
+// timeselice, cpu usage and mem usage regarding the specific Node and Process
 func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 
     params := mux.Vars(r)
@@ -99,7 +105,9 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-
+// CreateNodeMetrics - handler for path /v1/metrics/node/{nodename}/
+// Populates the NodeMetricsMap struct and it's internals with the received data, node metrics like
+// timeselice, cpu percentage and mem percentage regarding the specific Node
 func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
 
     params := mux.Vars(r)

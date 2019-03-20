@@ -14,6 +14,7 @@ import (
 
 
 
+// GetProcessAnalyticsCmd - Get Process Analytics sub-subcommand invokes the GetProcessAnalytics API Client
 var GetProcessAnalyticsCmd = &cobra.Command{
 
     Use: "pa",
@@ -27,9 +28,12 @@ var GetProcessAnalyticsCmd = &cobra.Command{
 
 
 
+// GetProcessAnalytics - API Client for sending GET request to path /v1/analytics/processes
+// and a timeslice query parameter
+// The response is loaded into a ProcessHistoryReport struct
 func GetProcessAnalytics() {
 
-    c := h.NewClient()
+    c := h.NewClient(ip, port)
 
     req, _ := c.NewRequest("GET", "/v1/analytics/processes", nil)
 

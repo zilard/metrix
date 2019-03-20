@@ -13,7 +13,7 @@ import (
 )
 
 
-
+// GetNodeAnalyticsCmd - Get Node Analytics sub-subcommand invokes the GetNodeAnalytics API Client
 var GetNodeAnalyticsCmd = &cobra.Command{
 
     Use: "na",
@@ -25,10 +25,12 @@ var GetNodeAnalyticsCmd = &cobra.Command{
 
 }
 
-
+// GetNodeAnalytics - API Client for sending GET request to path /v1/analytics/nodes/average
+// and a timeslice query parameter
+// The response is loaded into a NodeAverageReport struct
 func GetNodeAnalytics() {
 
-    c := h.NewClient()
+    c := h.NewClient(ip, port)
 
     req, _ := c.NewRequest("GET", "/v1/analytics/nodes/average", nil)
 

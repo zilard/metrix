@@ -13,6 +13,9 @@ import (
 
 
 
+
+
+// Send Node Metrics sub-subcommand has some extra flags for nodename, cpu and mem
 func init() {
 
     SendNodeMetricsCmd.Flags().StringVarP(&nodeName, "nodename", "n", "", "Node Name")
@@ -24,6 +27,9 @@ func init() {
 
 
 
+
+// SendNodeMetricsCmd - Send Node Metrics sub-subcommand invokes the SendNodeMetrics API Client
+// it also verifies whether the nodeName, cpu and mem has been provided through the corresponding flags
 var SendNodeMetricsCmd = &cobra.Command{
 
     Use: "nm",
@@ -61,9 +67,12 @@ var SendNodeMetricsCmd = &cobra.Command{
 
 
 
+
+// SendNodeMetrics - API Client for sending POST request to the API server on path /v1/metrics/node/<nodename>/ 
+// and a Json structure containing Node Metrics data: timeslice, cpu, mem
 func SendNodeMetrics() {
 
-    c := h.NewClient()
+    c := h.NewClient(ip, port)
 
     nodeMetrics := s.NodeMeasurement{
                        TimeSlice: timeSlice,

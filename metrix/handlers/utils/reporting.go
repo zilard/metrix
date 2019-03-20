@@ -9,7 +9,9 @@ import (
 
 
 
-
+// CreateNodeAverageReport - creates cpu/mem average report for all the nodes
+// and returns back the result to the GetAllNodeAverageMetrics API handler
+// The analytics data is extracted from nodeMetricsMap where all Process and Node metrics are stored
 func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64) s.NodeAverageReport {
 
     fmt.Printf("TIMESLICE %v\n", timeSlice)
@@ -96,7 +98,9 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 
 
 
-
+// CreateProcessAverageReport - creates cpu/mem average report for a specific process running on multiple nodes
+// and returns back the result to the GetMostRecentProcesses API handler
+// The analytics data is extracted from nodeMetricsMap where all Process and Node metrics are stored
 func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName string, timeSlice float64) s.ProcessAverageReport {
 
     fmt.Printf("TIMESLICE %v\n", timeSlice)
@@ -192,7 +196,9 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
 
 
 
-
+// CreateProcessHistoryReport - creates history report for the most recent process metrics submitted to the API Server
+// within the timeSlice timeframe, and returns back the result to the GetProcessAverage
+// The analytics data is extracted from processMetricsArray where the Process Metrics History is stored
 func CreateProcessHistoryReport(processMetricsArray []s.ProcessMetricsByName, timeSlice float64) s.ProcessHistoryReport {
 
     timeS := timeSlice

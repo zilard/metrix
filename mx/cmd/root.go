@@ -2,15 +2,17 @@
 package cmd
 
 import (
-	"fmt"
+    "fmt"
 
-        g "github.com/zilard/metrix/mx/cmd/get"
-        s "github.com/zilard/metrix/mx/cmd/send"
+     g "github.com/zilard/metrix/mx/cmd/get"
+     s "github.com/zilard/metrix/mx/cmd/send"
 
-	"github.com/spf13/cobra"
+    "github.com/spf13/cobra"
 )
 
 
+
+// Main command parser
 var RootCmd = &cobra.Command{
     Use: "mx",
     Run: func(cmd *cobra.Command, args []string) {
@@ -23,6 +25,7 @@ var RootCmd = &cobra.Command{
 }
 
 
+// Adding subcommands: get, send
 func init() {
 
     RootCmd.AddCommand(g.GetCmd)

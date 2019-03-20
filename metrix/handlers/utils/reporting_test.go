@@ -23,7 +23,7 @@ var update = flag.Bool("update", false, "update .golden files")
 const TIMESLICE = 360
 
 
-
+// TestCreateNodeAverageReport - Golden test for CreateNodeAverageReport function
 func TestCreateNodeAverageReport(t *testing.T) {
 
     timeSlice := float64(TIMESLICE)
@@ -83,7 +83,7 @@ func TestCreateNodeAverageReport(t *testing.T) {
 
 
 
-
+// TestCreateProcessAverageReport - Golden test for CreateProcessAverageReport function
 func TestCreateProcessAverageReport(t *testing.T) {
 
     timeSlice := float64(TIMESLICE)
@@ -143,7 +143,7 @@ func TestCreateProcessAverageReport(t *testing.T) {
 }
 
 
-
+// TestCreateProcessHistoryReport - Golden test for CreateProcessHistoryReport function
 func TestCreateProcessHistoryReport(t *testing.T) {
 
     timeSlice := float64(TIMESLICE)

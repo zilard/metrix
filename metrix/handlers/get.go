@@ -14,6 +14,11 @@ import (
 
 
 
+// GetAllNodeAverageMetrics - handler for path /v1/analytics/nodes/average
+// parses the URL Query parameter timeslice and invokes CreateNodeAverageReport function
+// to get the Node Average Analytics
+// The analytics data is obtained through a NodeAverageReport struct
+// Returns back the JSON encoded responde through http ResponseWriter
 func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
 
     paramArray, ok := r.URL.Query()["timeslice"]
@@ -35,7 +40,11 @@ func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-
+// GetProcessAverageMetricsAllNodes - handler for path /v1/analytics/processes/{processname}
+// parses the URL Query parameters processname and timeslice and invokes CreateProcessAverageReport function
+// to get the Process Average Analytics for a specific process calculated based on the info collected on all 
+// nodes where this process is/was running. The analytics data is obtained through a ProcessAverageReport struct
+// Returns back the JSON encoded responde through http ResponseWriter
 func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
 
     params := mux.Vars(r)
@@ -65,7 +74,10 @@ func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
 
 
 
-
+// GetMostRecentProcesses - handler for path /v1/analytics/processes
+// parses the URL Query parameter timeslice and invokes CreateProcessHistoryReport function
+// to get the most recent history of process metrics in a ProcessHistoryReport struct
+// Returns back the JSON encoded response through http ResponseWriter
 func GetMostRecentProcesses(w http.ResponseWriter, r *http.Request) {
 
     paramArray, ok := r.URL.Query()["timeslice"]

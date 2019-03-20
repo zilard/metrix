@@ -16,6 +16,8 @@ import (
 var processName string
 
 
+
+// Get Single Process Analytics sub-subcommand will get an extra flag for the Process Name
 func init() {
 
     GetSingleProcessAnalyticsCmd.Flags().StringVarP(&processName, "processname", "p", "", "Process Name")
@@ -23,6 +25,8 @@ func init() {
 }
 
 
+
+// GetSingleProcessAnalyticsCmd - Get Process Analytics sub-subcommand invokes the GetSingleProcessAnalytics API Client
 var GetSingleProcessAnalyticsCmd = &cobra.Command{
 
     Use: "spa",
@@ -43,9 +47,12 @@ var GetSingleProcessAnalyticsCmd = &cobra.Command{
 }
 
 
+// GetSingleProcessAnalytics - API Client for sending GET request to path /v1/analytics/processes/<processname>
+// and a timeslice query parameter
+// The response is loaded into a ProcessAverageReport struct
 func GetSingleProcessAnalytics() {
 
-    c := h.NewClient()
+    c := h.NewClient(ip, port)
 
     req, _ := c.NewRequest("GET", "/v1/analytics/processes/" + processName, nil)
 

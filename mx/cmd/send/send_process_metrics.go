@@ -15,6 +15,9 @@ import (
 var processName string
 
 
+
+
+// Send Process Metrics sub-subcommand has some extra flags for nodename, processname, cpu and mem
 func init() {
 
     SendProcessMetricsCmd.Flags().StringVarP(&nodeName, "nodename", "n", "", "Node Name")
@@ -27,11 +30,13 @@ func init() {
 
 
 
+
+// SendProcessMetricsCmd - Send Process Metrics sub-subcommand invokes the SendProcessMetrics API Client
+// it also verifies whether the nodename, processname, cpu and mem has been provided through the corresponding flags
 var SendProcessMetricsCmd = &cobra.Command{
 
     Use: "pm",
     Run: func(cmd *cobra.Command, args []string) {
-
 
         if nodeName == "" {
 
@@ -47,7 +52,6 @@ var SendProcessMetricsCmd = &cobra.Command{
              return
 
         }
-
 
 
         if cpu == 0 {
@@ -72,9 +76,12 @@ var SendProcessMetricsCmd = &cobra.Command{
 }
 
 
+
+// SendProcessMetrics - API Client for sending POST request to the API server on path /v1/metrics/nodes/<nodename>/process/<processname>/
+// and a Json structure containing Process Metrics data: timeslice, cpu, mem
 func SendProcessMetrics() {
 
-    c := h.NewClient()
+    c := h.NewClient(ip, port)
 
     processMetrics := s.ProcessMeasurement{
                           TimeSlice: timeSlice,

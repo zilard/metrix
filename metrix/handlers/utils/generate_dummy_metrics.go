@@ -11,6 +11,9 @@ import (
 
 
 
+
+// CreateDummyNodeMetrics - creates dummy Node metrics and stores it in nodeMetricsMap
+// used by Golden testing
 func CreateDummyNodeMetrics(nodeMetricsMap s.NodeMetricsMap) {
     for i := 1; i <= 2; i++ {
         nodeData := s.NodeData{}
@@ -28,6 +31,8 @@ func CreateDummyNodeMetrics(nodeMetricsMap s.NodeMetricsMap) {
 
 
 
+// CreateDummyProcessMetrics - creates dummy Process metrics and stores it in nodeMetricsMap
+// used by Golden testing
 func CreateDummyProcessMetrics(nodeMetricsMap s.NodeMetricsMap) {
 
     for i := 1; i <= 2; i++ {
@@ -55,6 +60,9 @@ func CreateDummyProcessMetrics(nodeMetricsMap s.NodeMetricsMap) {
 
 
 
+// CreateDummyProcessMetricsHistory - creates dummy history of submitted Process metrics and 
+// stores it in processMetricsArray
+// used by Golden testing
 func CreateDummyProcessMetricsHistory(processMetricsArray *[]s.ProcessMetricsByName) {
 
     var timeSliceArray = []float64{10, 30, 20, 50, 43, 22, 12, 34, 22, 8,

@@ -7,6 +7,8 @@ import (
     "encoding/json"
 )
 
+
+// PrettyPrint - pretty print a given struct in Json style
 func PrettyPrint(data interface{}) string {
 
     var out bytes.Buffer
