@@ -1,4 +1,4 @@
-.PHONY: install build clean image
+.PHONY: install build clean image deploy minikube
 
 CWD =  $(shell pwd)
 GOPATH = "${CWD}/build"
@@ -14,6 +14,15 @@ build: install
 
 clean:
 	rm -fr ${GOPATH}
+	kubectl delete -f k8s/deploy.yaml | true
+	kubectl delete svc metrix | true
+	docker rmi metrix-image:v1 | true
+	docker rmi metrix-image | true
 
 image: build
-	docker build -t metrix-image . 
+	docker build -t metrix-image .
+	docker image tag metrix-image:latest metrix-image:v1
+
+deploy: clean image
+	kubectl create -f k8s/deploy.yaml
+
