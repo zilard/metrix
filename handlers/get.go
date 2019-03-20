@@ -37,7 +37,6 @@ func GetAllNodeMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-
 func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
 
     paramArray, ok := r.URL.Query()["timeslice"]
@@ -62,7 +61,6 @@ func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-
 func CreateDummyProcessMetrics() {
 
     for i := 1; i <= 2; i++ {
@@ -70,9 +68,9 @@ func CreateDummyProcessMetrics() {
 
         processMetricsMap := make(s.ProcessMetricsMap)
 
-        for j := 1; j <= 5; j++ {
+        for j := 1; j <= 1; j++ {
             processMeasurementArray := []s.ProcessMeasurement{}
-            for k := 1; k <= 10; k++ {
+            for k := 1; k <= 2; k++ {
                 processMeasurementArray = append(processMeasurementArray,
                              s.ProcessMeasurement{
                                  TimeSlice: float64(k * 10),
@@ -112,7 +110,13 @@ func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
     //ONLY FOR TESTING
     CreateDummyProcessMetrics()
 
-    fmt.Printf("NODE METRICS MAP %v\n\n", nodeMetricsMap)
+    //fmt.Printf("NODE METRICS MAP %v\n\n", nodeMetricsMap)
+
+
+    totalProcessAverageReport := u.CreateProcessAverageReport(nodeMetricsMap, processName, timeSlice)
+
+    fmt.Printf("PROCESS AVERAGE ANALYTICS ALL NODES %v\n", totalProcessAverageReport)
+    json.NewEncoder(w).Encode(totalProcessAverageReport)
 
 
 }

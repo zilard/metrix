@@ -10,7 +10,6 @@ import (
 
 
 
-
 func CreateDummyNodeMetrics(nodeMetricsMap s.NodeMetricsMap) {
     for i := 1; i <= 2; i++ {
         nodeData := s.NodeData{}
@@ -106,6 +105,114 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 
 
     return totalNodeAverageReport
+
+}
+
+
+
+
+func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName string, timeSlice float64) s.ProcessAverageReport {
+
+    fmt.Printf("TIMESLICE %v\n", timeSlice)
+
+    fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
+
+
+
+
+    allProcessMetricsArrays := [][]s.ProcessMeasurement{}
+    minAvailableTimeSlice := float64(0)
+
+    for _, nodeData := range nodeMetricsMap {
+
+        if _, ok := nodeData.ProcessMeasurementMap[processName]; ok {
+
+
+            processMeasurementArray := nodeData.ProcessMeasurementMap[processName]
+
+            allProcessMetricsArrays = append(allProcessMetricsArrays, processMeasurementArray)
+
+
+            timeS := timeSlice
+
+            availableTimeSlice := float64(0)
+
+            for i := range processMeasurementArray {
+
+                processMeasurement := processMeasurementArray[len(processMeasurementArray) - 1 - i]
+
+                if processMeasurement.TimeSlice >= timeS {
+                    availableTimeSlice += timeS
+                    break
+                } else {
+                    timeS -= processMeasurement.TimeSlice
+                    availableTimeSlice += processMeasurement.TimeSlice
+                }
+            }
+
+
+
+            if minAvailableTimeSlice == 0 {
+                minAvailableTimeSlice = availableTimeSlice
+            } else {
+                if minAvailableTimeSlice > availableTimeSlice {
+                    minAvailableTimeSlice = availableTimeSlice
+                }
+            }
+
+
+
+
+        }
+    }
+
+
+    fmt.Printf("process: %v\n", processName)
+    fmt.Printf("minAvailableTimeSlice: %v\n", minAvailableTimeSlice)
+    fmt.Printf("allProcessMetricsArrays: %v\n", allProcessMetricsArrays)
+    fmt.Printf("nodes that reported this process: %v\n", len(allProcessMetricsArrays))
+
+
+
+    processAverageReport := s.ProcessAverageReport{
+                                TimeSlice: minAvailableTimeSlice,
+                                CpuUsed: 0,
+                                MemUsed: 0,
+                                NumInstances: float64(len(allProcessMetricsArrays)),
+                            }
+
+
+
+    for _, processMeasurementArray := range allProcessMetricsArrays {
+
+        timeS := minAvailableTimeSlice
+
+        for i := range processMeasurementArray {
+
+            processMeasurement := processMeasurementArray[len(processMeasurementArray) - 1 - i]
+
+            if processMeasurement.TimeSlice >= timeS {
+                processAverageReport.CpuUsed += processMeasurement.CpuUsed * timeS
+                processAverageReport.MemUsed += processMeasurement.MemUsed * timeS
+                break
+            } else {
+                timeS -= processMeasurement.TimeSlice
+                processAverageReport.CpuUsed += processMeasurement.CpuUsed * processMeasurement.TimeSlice
+                processAverageReport.MemUsed += processMeasurement.MemUsed * processMeasurement.TimeSlice
+            }
+        }
+
+    }
+
+
+    processAverageReport.CpuUsed = processAverageReport.CpuUsed / minAvailableTimeSlice / processAverageReport.NumInstances
+    processAverageReport.MemUsed = processAverageReport.MemUsed / minAvailableTimeSlice / processAverageReport.NumInstances
+
+
+    fmt.Printf("PROCESS AVERAGE REPORT: %v\n", processAverageReport)
+
+
+    return processAverageReport
 
 }
 
