@@ -1,17 +1,20 @@
 # Table of Contents
 
 - [Prerequisites](#Prerequisites)
-- [Install and Deploy](#Install and Deploy)
-- [metrix Server Usage](#metrix Server Usage)
-- [mx API Client Usage](#mx API Client Usage)
+- [Install and Deploy](#Install-and-Deploy)
+- [metrix Server Usage](#metrix-Server-Usage)
+- [mx API Client Usage](#mx-API-Client-Usage)
 
 
 
 # Prerequisites
 
 Minikube deployed
+- [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/setup/minikube/)
 
-run the following commands to unset proxies and setup the minikube context
+
+run the following commands to unset http proxy and setup the minikube context
 
     unset http_proxy
     unset https_proxy
@@ -25,11 +28,21 @@ run the following commands to unset proxies and setup the minikube context
 
 Clone repository
 
-    cd metrix
+    git clone https://github.com/zilard/metrix.git
 
+Run CI/CD
+
+    cd metrix
     make deploy
 
 
+CI/CD will:
+
+- cleanup previous build results and Kubernetes deployment
+- build the source of both "metrix" REST API server and "mx" REST API client
+- run the Golden tests
+- create Docker image for "metrix" REST API server
+- create a Kubernetes deployment for the "metrix" REST API server and expose it through a NodePort service
 
 
 # metrix Server Usage
@@ -50,6 +63,15 @@ Listening on specified port:
 
 You don't need to run the server separately in case you executed "make deploy"
 "make deploy" will deploy the server in a kubernetes deployment, and expose it through a NodePort service
+
+You can check the local server port on which the NodePort service exposed the "metrix" REST API server with
+
+    kubectl get svc
+    NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+    kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP          2d22h
+    metrix       NodePort    10.107.231.48   <none>        8080:30094/TCP   15s
+
+In this case this is PORT 30094
 
 
 
