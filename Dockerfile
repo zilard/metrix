@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM ubuntu:16.04
 
 ADD build/bin/metrix /bin
 

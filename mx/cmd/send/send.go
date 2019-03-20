@@ -45,8 +45,6 @@ var SendCmd = &cobra.Command{
 
     PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 
-        fmt.Printf("\nIP: %v   PORT: %v\n\n", ip, port)
-
         if port < 1024 || port > 65535 {
             return errors.New(" Port number out of range!\n" +
                               "\tPlease use a port number between 1024 and 65535\n")

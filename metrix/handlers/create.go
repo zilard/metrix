@@ -34,7 +34,6 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
     var processMeasurement s.ProcessMeasurement
     result := json.NewDecoder(r.Body).Decode(&processMeasurement)
 
-    fmt.Printf("result: %v\n", result)
     if result != nil {
         fmt.Fprintf(os.Stderr, "result=%v\n", result)
         return
@@ -116,7 +115,6 @@ func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
     var nodeMeasurement s.NodeMeasurement
     result := json.NewDecoder(r.Body).Decode(&nodeMeasurement)
 
-    fmt.Printf("result: %v\n", result)
     if result != nil {
         fmt.Fprintf(os.Stderr, "result=%v\n", result)
         return
