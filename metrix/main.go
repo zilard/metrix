@@ -7,7 +7,7 @@ import (
     "fmt"
     "strconv"
 
-    h "github.com/zilard/metrix/handlers"
+    h "github.com/zilard/metrix/metrix/handlers"
     "github.com/gorilla/mux"
 )
 

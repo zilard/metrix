@@ -8,7 +8,7 @@ import (
     "fmt"
     "os"
 
-    s "github.com/zilard/metrix/structs"
+    s "github.com/zilard/metrix/metrix/structs"
     "github.com/gorilla/mux"
 )
 

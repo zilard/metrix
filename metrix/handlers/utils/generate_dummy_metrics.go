@@ -6,7 +6,7 @@ import (
     "math/rand"
     "time"
 
-    s "github.com/zilard/metrix/structs"
+    s "github.com/zilard/metrix/metrix/structs"
 )
 
 

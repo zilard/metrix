@@ -5,7 +5,7 @@ import (
     "fmt"
     "net/url"
 
-    s "github.com/zilard/metrix/structs"
+    s "github.com/zilard/metrix/metrix/structs"
     h "github.com/zilard/metrix/mx/cmd/http"
     u "github.com/zilard/metrix/mx/cmd/utils"
 
