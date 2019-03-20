@@ -4,6 +4,9 @@ package cmd
 import (
     "fmt"
 
+    s "github.com/zilard/metrix/mx/cmd/structs"
+    h "github.com/zilard/metrix/mx/cmd/http"
+
     "github.com/spf13/cobra"
 )
 
@@ -21,24 +24,15 @@ var GetNodeAnalyticsCmd = &cobra.Command{
 }
 
 
-
-type NodeAnalytics struct {
-    TimeSlice float64     `json:"timeslice,omitempty"`
-    Cpu       float64     `json:"cpu_used,omitempty"`
-    Mem       float64     `json:"mem_used,omitempty"`
-}
-
-
-
 func GetNodeAnalytics(timeSlice float64) {
 
-    c := NewClient()
+    c := h.NewClient()
 
-    req, _ := c.newRequest("GET", "/v1/analytics/nodes/average", nil)
+    req, _ := c.NewRequest("GET", "/v1/analytics/nodes/average", nil)
 
-    var nodeAnalytics NodeAnalytics
+    var nodeAnalytics s.NodeAnalytics
 
-    c.do(req, &nodeAnalytics)
+    c.Do(req, &nodeAnalytics)
 
     fmt.Printf("NODE ANALYTICS: %v\n", nodeAnalytics)
 

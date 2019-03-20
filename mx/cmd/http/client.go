@@ -1,5 +1,5 @@
 
-package cmd
+package http
 
 import (
     "encoding/json"
@@ -11,16 +11,7 @@ import (
 )
 
 
-
-type Client struct {
-    HttpClient *http.Client
-    BaseURL    *url.URL
-    UserAgent  string
-}
-
-
 const BaseURL string = "http://localhost:8080"
-
 
 
 
@@ -34,8 +25,7 @@ func NewClient() *Client {
 
 
 
-
-func (c *Client) newRequest(method, path string, body interface{}) (*http.Request, error) {
+func (c *Client) NewRequest(method, path string, body interface{}) (*http.Request, error) {
 
     rel := &url.URL{Path: path}
     u := c.BaseURL.ResolveReference(rel)
@@ -65,7 +55,7 @@ func (c *Client) newRequest(method, path string, body interface{}) (*http.Reques
 
 
 
-func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
+func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 
     resp, err := c.HttpClient.Do(req)
     if err != nil {

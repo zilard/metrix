@@ -14,7 +14,6 @@ var mem float64
 
 
 
-
 func init() {
 
     SendCmd.AddCommand(SendNodeMetricsCmd)

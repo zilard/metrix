@@ -4,6 +4,10 @@ package cmd
 import (
     "fmt"
 
+    s "github.com/zilard/metrix/mx/cmd/structs"
+    h "github.com/zilard/metrix/mx/cmd/http"
+
+
     "github.com/spf13/cobra"
 )
 
@@ -22,33 +26,19 @@ var GetProcessAnalyticsCmd = &cobra.Command{
 
 
 
-type Process struct {
-    Name   string   `json:"name,omitempty"`
-    Url    string   `json:"url,omitempty"`
-}
-
-
-type ProcessAnalytics struct {
-    TimeSlice   float64    `json:"timeslice,omitempty"`
-    Processes   []Process  `json:"processes,omitempty"`
-}
-
-
-
 func GetProcessAnalytics(timeSlice float64) {
 
-    c := NewClient()
+    c := h.NewClient()
 
-    req, _ := c.newRequest("GET", "/v1/analytics/processes/", nil)
+    req, _ := c.NewRequest("GET", "/v1/analytics/processes/", nil)
 
-    var processAnalytics ProcessAnalytics
+    var processAnalytics s.ProcessAnalytics
 
-    c.do(req, &processAnalytics)
+    c.Do(req, &processAnalytics)
 
     fmt.Printf("PROCESS ANALYTICS: %v\n", processAnalytics)
 
 }
-
 
 
 
