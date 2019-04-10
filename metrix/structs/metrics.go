@@ -32,6 +32,8 @@ var processMeasurementArray []ProcessMeasurement
 
 
 
+type ProcessMetricsArray []ProcessMetricsByName
+
 type ProcessMetricsByName struct {
     ProcessName string
     MetricsData ProcessMeasurement

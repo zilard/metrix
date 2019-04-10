@@ -1,4 +1,4 @@
-.PHONY: install build clean test image deploy
+.PHONY: install build clean test image deploy kubeclean kubedeploy
 
 CWD =  $(shell pwd)
 GOPATH = "${CWD}/build"
@@ -15,11 +15,22 @@ clean:
 	rm -fr ${GOPATH}
 	kubectl delete -f k8s/deploy.yaml | true
 	kubectl delete svc metrix | true
-	docker rmi metrix-image:v1 | true
-	docker rmi metrix-image | true
+	@IMG=$(docker image list | grep "metrix-image:v1 " | awk '{ print $3 }')
+	@docker ps -a | awk '{ print $1 " " $2 }' | grep "${IMG}" |  awk '{print $1 }' | xargs -I {} docker rm {} --force
+	docker rmi metrix-image:v1 --force | true
+	@IMG=$(docker image list | grep "metrix-image " | awk '{ print $3 }')
+	@docker ps -a | awk '{ print $1 " " $2 }' | grep "${IMG}" |  awk '{print $1 }' | xargs -I {} docker rm {} --force
+	docker rmi metrix-image --force | true
 
 test: install
 	cd metrix; GOPATH=${GOPATH} go test -v ./...
+
+kubeclean:
+	kubectl delete -f k8s/deploy.yaml | true
+	kubectl delete svc metrix | true
+
+kubedeploy: kubeclean
+	kubectl create -f k8s/deploy.yaml
 
 image: build
 	docker build -t metrix-image .

@@ -9,14 +9,75 @@ import (
     "os"
 
     h "github.com/zilard/metrix/metrix/handlers"
+    u "github.com/zilard/metrix/metrix/handlers/utils"
+
     "github.com/gorilla/mux"
     "github.com/spf13/cobra"
+    "github.com/juju/fslock"
 
 )
 
-const PORT = 8080
+const PORT int = 8080
 
 var Port int
+
+var StoragePath string
+
+
+const (
+    nodeMetricsFile string = "node_metrics.txt"
+    nodeMetricsReadLockFile string = "node_metrics_read_lock.txt"
+    nodeMetricsWriteLockFile string = "node_metrics_write_lock.txt"
+    processMetricsHistoryFile string = "process_metrics_history.txt"
+    processMetricsHistoryReadLockFile string = "process_metrics_history_read_lock.txt"
+    processMetricsHistoryWriteLockFile string = "process_metrics_history_write_lock.txt"
+)
+
+
+func initialize() {
+
+    u.HostName, _ = os.Hostname()
+
+    setStorageDir()
+
+    h.NodeMetricsReadLock = fslock.New(StoragePath + "/" + nodeMetricsReadLockFile)
+    h.NodeMetricsWriteLock = fslock.New(StoragePath + "/" + nodeMetricsWriteLockFile)
+    h.ProcessMetricsHistoryReadLock = fslock.New(StoragePath + "/" + processMetricsHistoryReadLockFile)
+    h.ProcessMetricsHistoryWriteLock = fslock.New(StoragePath + "/" + processMetricsHistoryWriteLockFile)
+
+    h.NodeMetricsFilePath = StoragePath + "/" + nodeMetricsFile
+    h.ProcessMetricsHistoryFilePath = StoragePath + "/" + processMetricsHistoryFile
+
+    checkOrCreateFile(h.NodeMetricsFilePath)
+    checkOrCreateFile(h.ProcessMetricsHistoryFilePath)
+
+}
+
+
+func setStorageDir() {
+    dataStorage := os.Getenv("METRIX_DATA_STORAGE")
+    if dataStorage != "" {
+        if StoragePath == "" {
+            StoragePath = dataStorage
+        }
+    } else {
+        fmt.Printf("Environment Variable METRIX_DATA_STORAGE is not set\n")
+        if StoragePath == "" {
+            StoragePath = "."
+        }
+    }
+    fmt.Printf("Final Metrix Data Storage is: %s\n", StoragePath)
+}
+
+
+func checkOrCreateFile(filePath string) {
+    file, err := os.OpenFile(filePath, os.O_RDONLY|os.O_CREATE, 0666)
+    file.Close()
+    if err != nil {
+        fmt.Printf("ERROR opening or creating file %s => %v\n", filePath, err)
+        os.Exit(1)
+    }
+}
 
 
 var RootCmd = &cobra.Command{
@@ -38,6 +99,7 @@ var RootCmd = &cobra.Command{
 func init() {
 
     RootCmd.PersistentFlags().IntVarP(&Port, "port", "p", PORT, "port")
+    RootCmd.PersistentFlags().StringVarP(&StoragePath, "datadir", "d", "", "datadir")
 
 }
 
@@ -56,9 +118,13 @@ func main() {
 // Run calling HTTP Handlers functions for each specific API path
 func Run() {
 
+    initialize()
+
     router := mux.NewRouter()
 
+    router.HandleFunc("/v1/metrics/node/{nodename}", h.CreateNodeMetrics).Methods("POST")
     router.HandleFunc("/v1/metrics/node/{nodename}/", h.CreateNodeMetrics).Methods("POST")
+    router.HandleFunc("/v1/metrics/nodes/{nodename}/process/{processname}", h.CreateProcessMetrics).Methods("POST")
     router.HandleFunc("/v1/metrics/nodes/{nodename}/process/{processname}/", h.CreateProcessMetrics).Methods("POST")
 
     router.HandleFunc("/v1/analytics/nodes/average", h.GetAllNodeAverageMetrics).Methods("GET")

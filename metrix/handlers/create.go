@@ -9,15 +9,19 @@ import (
     "os"
 
     s "github.com/zilard/metrix/metrix/structs"
+    u "github.com/zilard/metrix/metrix/handlers/utils"
+
+    "github.com/juju/fslock"
     "github.com/gorilla/mux"
 )
 
 
-// nodeMetricsMap is where all data is stored
-var nodeMetricsMap = make(s.NodeMetricsMap)
-
-// processMetricsArray required to collect the process metrics history
-var processMetricsArray = []s.ProcessMetricsByName{}
+var NodeMetricsFilePath string
+var ProcessMetricsHistoryFilePath string
+var NodeMetricsReadLock *fslock.Lock
+var NodeMetricsWriteLock *fslock.Lock
+var ProcessMetricsHistoryReadLock *fslock.Lock
+var ProcessMetricsHistoryWriteLock *fslock.Lock
 
 
 
@@ -26,6 +30,12 @@ var processMetricsArray = []s.ProcessMetricsByName{}
 // Populates the NodeMetricsMap struct and it's internals with the received data, process metrics like
 // timeselice, cpu usage and mem usage regarding the specific Node and Process
 func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
+
+    var nodeMetricsMap s.NodeMetricsMap
+    var processMetricsArray s.ProcessMetricsArray
+
+    nodeMetricsMap = make(s.NodeMetricsMap)
+    processMetricsArray = s.ProcessMetricsArray{}
 
     params := mux.Vars(r)
     nodeName := params["nodename"]
@@ -46,7 +56,31 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
     processMetricsData.ProcessName = processName
     processMetricsData.MetricsData = processMeasurement
 
+
+
+    // processMetricsArray
+    u.GetLock(ProcessMetricsHistoryWriteLock, ProcessMetricsHistoryFilePath)
+    u.ReadFromFile(ProcessMetricsHistoryFilePath, &processMetricsArray)
+
     processMetricsArray = append(processMetricsArray, processMetricsData)
+
+    // processMetricsArray
+    u.GetLock(ProcessMetricsHistoryReadLock, ProcessMetricsHistoryFilePath)
+
+
+    fmt.Printf("\nWRITING processMetricsArray %v\n", processMetricsArray)
+    u.WriteToFile(ProcessMetricsHistoryFilePath, &processMetricsArray)
+
+    u.ReleaseLock(ProcessMetricsHistoryReadLock, ProcessMetricsHistoryFilePath)
+    u.ReleaseLock(ProcessMetricsHistoryWriteLock, ProcessMetricsHistoryFilePath)
+
+
+
+
+    // nodeMetricsMap
+    u.GetLock(NodeMetricsWriteLock, NodeMetricsFilePath)
+    u.ReadFromFile(NodeMetricsFilePath, &nodeMetricsMap)
+
 
 
     if _, ok := nodeMetricsMap[nodeName]; ok {
@@ -85,6 +119,7 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 
         processMetricsMap[processName] = processMeasurementArray
 
+        nodeData.NodeMeasurementArray = []s.NodeMeasurement{}
         nodeData.ProcessMeasurementMap = processMetricsMap
 
         nodeMetricsMap[nodeName] = nodeData
@@ -92,11 +127,21 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
     }
 
 
+
+    // nodeMetricsMap
+    u.GetLock(NodeMetricsReadLock, NodeMetricsFilePath)
+
+    u.WriteToFile(NodeMetricsFilePath, &nodeMetricsMap)
+
+    u.ReleaseLock(NodeMetricsReadLock, NodeMetricsFilePath)
+    u.ReleaseLock(NodeMetricsWriteLock, NodeMetricsFilePath)
+
+
+
     fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
 
     fmt.Printf("\n")
     json.NewEncoder(w).Encode(processMeasurement)
-
 
 
 }
@@ -108,6 +153,9 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 // Populates the NodeMetricsMap struct and it's internals with the received data, node metrics like
 // timeselice, cpu percentage and mem percentage regarding the specific Node
 func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
+
+    var nodeMetricsMap s.NodeMetricsMap
+    nodeMetricsMap = make(s.NodeMetricsMap)
 
     params := mux.Vars(r)
     nodeName := params["nodename"]
@@ -122,6 +170,11 @@ func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
 
 
     fmt.Printf("GOT => nodeMeasurement %v for NODE %v\n", nodeMeasurement, nodeName)
+
+
+    // nodeMetricsMap
+    u.GetLock(NodeMetricsWriteLock, NodeMetricsFilePath)
+    u.ReadFromFile(NodeMetricsFilePath, &nodeMetricsMap)
 
 
     if _, ok := nodeMetricsMap[nodeName]; ok {
@@ -141,14 +194,23 @@ func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
     }
 
 
+
+    // nodeMetricsMap
+    u.GetLock(NodeMetricsReadLock, NodeMetricsFilePath)
+
+    u.WriteToFile(NodeMetricsFilePath, &nodeMetricsMap)
+
+    u.ReleaseLock(NodeMetricsReadLock, NodeMetricsFilePath)
+    u.ReleaseLock(NodeMetricsWriteLock, NodeMetricsFilePath)
+
+
+
     fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
 
     fmt.Printf("\n")
     json.NewEncoder(w).Encode(nodeMeasurement)
 
 }
-
-
 
 
 
