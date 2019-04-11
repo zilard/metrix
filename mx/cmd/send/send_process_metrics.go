@@ -99,7 +99,7 @@ func SendProcessMetrics() {
     c.Do(req, &processMeasurement)
 
 
-    fmt.Printf("PROCESS MEASUREMENT SENT: %s\n", u.PrettyPrint(processMeasurement))
+    //fmt.Printf("PROCESS MEASUREMENT SENT: %s\n", u.PrettyPrint(processMeasurement))
 
 }
 

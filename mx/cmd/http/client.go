@@ -60,7 +60,7 @@ func (c *Client) NewRequest(method, path string, body interface{}) (*http.Reques
 
 func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 
-    fmt.Printf("\nURL: %s\n\n", req.URL.String())
+    //fmt.Printf("\nURL: %s\n\n", req.URL.String())
 
     resp, err := c.HttpClient.Do(req)
     if err != nil {

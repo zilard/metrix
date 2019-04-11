@@ -42,7 +42,7 @@ func GetNodeAnalytics() {
 
     c.Do(req, &nodeAnalytics)
 
-    fmt.Printf("NODE ANALYTICS: %s\n", u.PrettyPrint(nodeAnalytics))
+    //fmt.Printf("NODE ANALYTICS: %s\n", u.PrettyPrint(nodeAnalytics))
 
 }
 

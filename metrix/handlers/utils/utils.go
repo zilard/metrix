@@ -28,15 +28,15 @@ func WaitUntilIsUnLocked(lock *fslock.Lock, fileName string) {
     i := 0
     for {
         if locked := IsLocked(lock); locked {
-            fmt.Printf("\n%s - File %s is locked for reading, re-checking soon ... %v\n",
-                       HostName, fileName, locked)
+            //fmt.Printf("\n%s - File %s is locked for reading, re-checking soon ... %v\n",
+            //           HostName, fileName, locked)
             randValue := RandFloor + rand.Intn(RandCeiling-RandFloor+1)
             sleepTime := time.Duration(randValue) * time.Millisecond
-            fmt.Printf("\n%s - %d Sleeping %v %d\n", HostName, i, sleepTime, int(sleepTime))
+            //fmt.Printf("\n%s - %d Sleeping %v %d\n", HostName, i, sleepTime, int(sleepTime))
             time.Sleep(sleepTime)
             i += 1
         } else {
-            fmt.Printf("\n%s - File %s not locked\n", HostName, fileName)
+            //fmt.Printf("\n%s - File %s not locked\n", HostName, fileName)
             break
         }
     }
@@ -58,15 +58,15 @@ func GetLock(lock *fslock.Lock, fileName string) {
     for {
         lockErr := lock.TryLock()
         if lockErr != nil {
-             fmt.Printf("\n%s - Lock %s not available now, retrying ... %v\n",
-                        HostName, fileName, lockErr.Error())
+             //fmt.Printf("\n%s - Lock %s not available now, retrying ... %v\n",
+             //           HostName, fileName, lockErr.Error())
              randValue := RandFloor + rand.Intn(RandCeiling-RandFloor+1)
              sleepTime := time.Duration(randValue) * time.Millisecond
-             fmt.Printf("\n%s - %d Sleeping %v %d\n", HostName, i, sleepTime, int(sleepTime))
+             //fmt.Printf("\n%s - %d Sleeping %v %d\n", HostName, i, sleepTime, int(sleepTime))
              time.Sleep(sleepTime)
              i += 1
          } else {
-             fmt.Printf("\n%s - Got the lock %s for writing\n", HostName, fileName)
+             //fmt.Printf("\n%s - Got the lock %s for writing\n", HostName, fileName)
              break
          }
     }
@@ -74,7 +74,7 @@ func GetLock(lock *fslock.Lock, fileName string) {
 
 
 func ReleaseLock(lock *fslock.Lock, fileName string ) {
-    fmt.Printf("%s - releasing lock %s\n", HostName, fileName)
+    //fmt.Printf("%s - releasing lock %s\n", HostName, fileName)
     lock.Unlock()
 }
 

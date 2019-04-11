@@ -14,9 +14,9 @@ import (
 // The analytics data is extracted from nodeMetricsMap where all Process and Node metrics are stored
 func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64) s.NodeAverageReport {
 
-    fmt.Printf("TIMESLICE %v\n", timeSlice)
+    //fmt.Printf("TIMESLICE %v\n", timeSlice)
 
-    fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
+    //fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
 
     nodeAverageAnalytics := make(s.NodeAverageAnalytics)
 
@@ -26,7 +26,7 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
             continue
         }
 
-        fmt.Printf("NODE NAME %v\n", nodeName)
+        //fmt.Printf("NODE NAME %v\n", nodeName)
 
 
         nodeAverageReport := s.NodeAverageReport{
@@ -39,7 +39,7 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 
         for i := range nodeData.NodeMeasurementArray {
             nodeMeasurement := nodeData.NodeMeasurementArray[len(nodeData.NodeMeasurementArray) - 1 - i]
-            fmt.Printf("__NODE MEASUREMENT %v\n", nodeMeasurement)
+            //fmt.Printf("__NODE MEASUREMENT %v\n", nodeMeasurement)
 
             if nodeMeasurement.TimeSlice >= timeS {
                 nodeAverageReport.TimeSlice += timeS
@@ -62,7 +62,7 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 
     }
 
-    fmt.Printf("PER NODE AVERAGE ANALYTICS %v\n", nodeAverageAnalytics)
+    //fmt.Printf("PER NODE AVERAGE ANALYTICS %v\n", nodeAverageAnalytics)
 
 
 
@@ -103,9 +103,9 @@ func CreateNodeAverageReport(nodeMetricsMap s.NodeMetricsMap, timeSlice float64)
 // The analytics data is extracted from nodeMetricsMap where all Process and Node metrics are stored
 func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName string, timeSlice float64) s.ProcessAverageReport {
 
-    fmt.Printf("TIMESLICE %v\n", timeSlice)
+    //fmt.Printf("TIMESLICE %v\n", timeSlice)
 
-    fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
+    //fmt.Printf("NODE METRICS %v\n", nodeMetricsMap)
 
 
     allProcessMetricsArrays := [][]s.ProcessMeasurement{}
@@ -186,7 +186,7 @@ func CreateProcessAverageReport(nodeMetricsMap s.NodeMetricsMap, processName str
     processAverageReport.MemUsed = processAverageReport.MemUsed / minAvailableTimeSlice / processAverageReport.NumInstances
 
 
-    fmt.Printf("PROCESS AVERAGE REPORT: %v\n", processAverageReport)
+    //fmt.Printf("PROCESS AVERAGE REPORT: %v\n", processAverageReport)
 
 
     return processAverageReport
@@ -232,7 +232,7 @@ func CreateProcessHistoryReport(processMetricsArray []s.ProcessMetricsByName, ti
 
     processHistoryReport.Processes = processes
 
-    fmt.Printf("PROCESS HISTORY REPORT: %v\n", processHistoryReport)
+    //fmt.Printf("PROCESS HISTORY REPORT: %v\n", processHistoryReport)
 
     return processHistoryReport
 

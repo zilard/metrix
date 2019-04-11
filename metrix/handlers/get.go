@@ -47,7 +47,7 @@ func GetAllNodeAverageMetrics(w http.ResponseWriter, r *http.Request) {
     totalNodeAverageReport := u.CreateNodeAverageReport(nodeMetricsMap, timeSlice)
 
 
-    fmt.Printf("TOTAL NODE AVERAGE ANALYTICS %v\n", totalNodeAverageReport)
+    //fmt.Printf("TOTAL NODE AVERAGE ANALYTICS %v\n", totalNodeAverageReport)
     json.NewEncoder(w).Encode(totalNodeAverageReport)
 
 }
@@ -68,7 +68,7 @@ func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
 
     paramArray, ok := r.URL.Query()["timeslice"]
 
-    fmt.Printf("GOT => PROCESSNAME: %v\n", processName)
+    //fmt.Printf("GOT => PROCESSNAME: %v\n", processName)
 
     var timeSlice float64
 
@@ -78,7 +78,7 @@ func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
         timeSlice, _ = strconv.ParseFloat(paramArray[0], 64)
     }
 
-    fmt.Printf("GOT => TIMESLICE: %v\n", timeSlice)
+    //fmt.Printf("GOT => TIMESLICE: %v\n", timeSlice)
 
 
     // nodeMetricsMap
@@ -88,7 +88,7 @@ func GetProcessAverageMetricsAllNodes(w http.ResponseWriter, r *http.Request) {
     totalProcessAverageReport := u.CreateProcessAverageReport(nodeMetricsMap, processName, timeSlice)
 
 
-    fmt.Printf("PROCESS AVERAGE ANALYTICS ALL NODES %v\n", totalProcessAverageReport)
+    //fmt.Printf("PROCESS AVERAGE ANALYTICS ALL NODES %v\n", totalProcessAverageReport)
     json.NewEncoder(w).Encode(totalProcessAverageReport)
 
 }
@@ -114,7 +114,7 @@ func GetMostRecentProcesses(w http.ResponseWriter, r *http.Request) {
         timeSlice, _ = strconv.ParseFloat(paramArray[0], 64)
     }
 
-    fmt.Printf("GOT => TIMESLICE: %v\n", timeSlice)
+    //fmt.Printf("GOT => TIMESLICE: %v\n", timeSlice)
 
 
     // processMetricsArray
@@ -124,7 +124,7 @@ func GetMostRecentProcesses(w http.ResponseWriter, r *http.Request) {
     mostRecentProcessHistoryReport := u.CreateProcessHistoryReport(processMetricsArray, timeSlice)
 
 
-    fmt.Printf("MOST RECENT PROCESS HISTORY REPORT %v\n", mostRecentProcessHistoryReport)
+    //fmt.Printf("MOST RECENT PROCESS HISTORY REPORT %v\n", mostRecentProcessHistoryReport)
     json.NewEncoder(w).Encode(mostRecentProcessHistoryReport)
 
 }

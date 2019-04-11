@@ -65,7 +65,7 @@ func GetSingleProcessAnalytics() {
     c.Do(req, &processAnalytics)
 
 
-    fmt.Printf("SINGLE PROCESS ANALYTICS: %s\n", u.PrettyPrint(processAnalytics))
+    //fmt.Printf("SINGLE PROCESS ANALYTICS: %s\n", u.PrettyPrint(processAnalytics))
 
 }
 

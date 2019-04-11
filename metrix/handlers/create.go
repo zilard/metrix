@@ -49,7 +49,7 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    fmt.Printf("GOT => processMeasurement %v for NODE %v and PROCESS %v\n", processMeasurement, nodeName, processName)
+    //fmt.Printf("GOT => processMeasurement %v for NODE %v and PROCESS %v\n", processMeasurement, nodeName, processName)
 
 
     processMetricsData := s.ProcessMetricsByName{}
@@ -67,8 +67,6 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
     // processMetricsArray
     u.GetLock(ProcessMetricsHistoryReadLock, ProcessMetricsHistoryFilePath)
 
-
-    fmt.Printf("\nWRITING processMetricsArray %v\n", processMetricsArray)
     u.WriteToFile(ProcessMetricsHistoryFilePath, &processMetricsArray)
 
     u.ReleaseLock(ProcessMetricsHistoryReadLock, ProcessMetricsHistoryFilePath)
@@ -138,7 +136,7 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-    fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
+    //fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
 
     fmt.Printf("\n")
     json.NewEncoder(w).Encode(processMeasurement)
@@ -169,7 +167,7 @@ func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
     }
 
 
-    fmt.Printf("GOT => nodeMeasurement %v for NODE %v\n", nodeMeasurement, nodeName)
+    //fmt.Printf("GOT => nodeMeasurement %v for NODE %v\n", nodeMeasurement, nodeName)
 
 
     // nodeMetricsMap
@@ -205,9 +203,8 @@ func CreateNodeMetrics(w http.ResponseWriter, r *http.Request) {
 
 
 
-    fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
+    //fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
 
-    fmt.Printf("\n")
     json.NewEncoder(w).Encode(nodeMeasurement)
 
 }
