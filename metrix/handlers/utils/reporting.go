@@ -2,8 +2,6 @@
 package utils
 
 import (
-    "fmt"
-
     s "github.com/zilard/metrix/metrix/structs"
 )
 

@@ -4,7 +4,6 @@ package handlers
 import (
     "encoding/json"
     "net/http"
-    "fmt"
     "strconv"
 
     u "github.com/zilard/metrix/metrix/handlers/utils"

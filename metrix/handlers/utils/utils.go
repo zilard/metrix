@@ -4,7 +4,6 @@ import (
     "encoding/json"
     "math/rand"
     "io/ioutil"
-    "fmt"
     "time"
 
     s "github.com/zilard/metrix/metrix/structs"

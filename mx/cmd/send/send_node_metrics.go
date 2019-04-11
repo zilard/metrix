@@ -89,7 +89,7 @@ func SendNodeMetrics() {
     c.Do(req, &nodeMeasurement)
 
 
-    fmt.Printf("NODE MEASUREMENT SENT: %s\n", u.PrettyPrint(nodeMeasurement))
+    //fmt.Printf("NODE MEASUREMENT SENT: %s\n", u.PrettyPrint(nodeMeasurement))
 
 }
 
