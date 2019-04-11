@@ -138,7 +138,6 @@ func CreateProcessMetrics(w http.ResponseWriter, r *http.Request) {
 
     //fmt.Printf("SET nodeMetricsMap %v\n", nodeMetricsMap)
 
-    fmt.Printf("\n")
     json.NewEncoder(w).Encode(processMeasurement)
 
 
