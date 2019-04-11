@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: generic-config
+data:
+  dataStorage: /data
+---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -5,7 +12,7 @@ metadata:
     run: metrix
   name: metrix
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       run: metrix
@@ -19,6 +26,20 @@ spec:
         name: metrix
         ports:
         - containerPort: 8080
+        env:
+          - name: METRIX_DATA_STORAGE
+            valueFrom:
+              configMapKeyRef:
+                name: generic-config
+                key: dataStorage
+        volumeMounts:
+        - mountPath: /data
+          name: data-volume
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /data
+          type: Directory
 ---
 apiVersion: v1
 kind: Service
