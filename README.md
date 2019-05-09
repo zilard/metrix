@@ -1,9 +1,21 @@
 # Table of Contents
 
+- [What is this project about?](#What is this project about?)
 - [Prerequisites](#Prerequisites)
 - [Install and Deploy](#Install-and-Deploy)
 - [metrix Server Usage](#metrix-Server-Usage)
 - [mx API Client Usage](#mx-API-Client-Usage)
+
+
+
+
+# What is this project about?
+
+This is a Golang REST API server (and client) able to collect Server metrics about Memory
+and Cpu usage for each process or as a total, and then generate analytics
+results, like average report and others. 
+It is Kubernetes/Docker compatible and able to scale through Kubernetes Deployment/Pods
+
 
 
 
