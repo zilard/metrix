@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [What is this project about?](#What is this project about?)
+- [What is this project about?](#What-is-this-project-about?)
 - [Prerequisites](#Prerequisites)
 - [Install and Deploy](#Install-and-Deploy)
 - [metrix Server Usage](#metrix-Server-Usage)
