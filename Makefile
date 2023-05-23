@@ -8,8 +8,10 @@ install:
 	cd metrix; GOPATH=${GOPATH} go get -d -v ./...
 	cd mx; GOPATH=${GOPATH} go get -d -v ./...
  
-build: install test
-	cd ${GOPATH}/src/github.com/zilard/metrix; GOPATH=${GOPATH} go install -v ./...
+build: install
+	cd metrix; go build .
+	cd mx; go build .
+
 
 clean:
 	rm -fr ${GOPATH}

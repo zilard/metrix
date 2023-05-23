@@ -1,6 +1,10 @@
-FROM ubuntu:16.04
+FROM golang:1.20.2
 
-ADD build/bin/metrix /bin
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN go mod tidy
 
 EXPOSE 8080
 

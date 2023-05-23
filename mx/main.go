@@ -5,7 +5,7 @@ import (
     "fmt"
     "os"
 
-    "github.com/zilard/metrix/mx/cmd"
+    "github.com/zilard/metrix/mx"
 )
 
 func main() {
